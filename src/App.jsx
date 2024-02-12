@@ -1,7 +1,11 @@
+import StepperApp from "./components/StepperApp";
+
 function App() {
   return (
     <>
-      <div className="text-2xl font-mono">Hello World</div>
+      <div className="font-mono">
+        <StepperApp />
+      </div>
     </>
   );
 }
