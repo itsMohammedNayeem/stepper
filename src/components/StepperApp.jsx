@@ -1,36 +1,43 @@
 import React, { useState } from "react";
 
-function Step({ title, completed }) {
-  return (
-    <div style={{ color: completed ? "green" : "grey" }}>
-      {completed ? "✔️" : ""} {title}
-    </div>
-  );
-}
+const StepperApp = ({ stepsConfig = [] }) => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isComplete, setIsComplete] = useState(false);
 
-function StepperApp() {
-  const steps = ["Ordered", "Shipped", "Out for delivery", "Delivered"];
-  const [currentStep, setCurrentStep] = useState(0);
+  if (stepsConfig.length === 0) {
+    return (
+      <div>
+        <h2>No steps found</h2>
+      </div>
+    );
+  }
 
-  const nextStep = () => {
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
-  };
+  const handleNext = () => {};
 
   return (
-    <div>
-      <div
-        style={{
-          width: `${(currentStep / (steps.length - 1)) * 100}%`,
-          height: "20px",
-          backgroundColor: "blue",
-        }}
-      />
-      {steps.map((step, index) => (
-        <Step key={index} title={step} completed={index <= currentStep} />
-      ))}
-      <button onClick={nextStep}>Next</button>
-    </div>
+    <>
+      <div className="stepper p-4 relative flex items-center mb-[20px] justify-between">
+        {stepsConfig.map((step, index) => {
+          return (
+            <div
+              className="step flex flex-col relative items-center"
+              key={step.name}
+            >
+              <div className="step-number size-[30px] rounded-full bg-[#ccc] mb-[5px] flex items-center justify-center z-2">
+                {index + 1}
+              </div>
+              <div className="step-name text-[14px]">{step.name}</div>
+            </div>
+          );
+        })}
+      </div>
+      {!isComplete && (
+        <button className="rounded-md bg-blue-500 p-2" onClick={handleNext}>
+          {currentStep === stepsConfig.length ? "Finish" : "Next"}
+        </button>
+      )}
+    </>
   );
-}
+};
 
 export default StepperApp;
